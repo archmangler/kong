@@ -43,9 +43,8 @@ function update_kong_configuration () {
 
 #create_mtls_secret
 
-create_kong_release
+#create_kong_release
 
 #delete_kong_release
 
-#update_kong_configuration
-
+update_kong_configuration

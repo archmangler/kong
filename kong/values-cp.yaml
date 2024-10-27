@@ -16,6 +16,12 @@ env:
  # These certificates are used for control plane / data plane communication
  cluster_cert: /etc/secrets/kong-cluster-cert/tls.crt
  cluster_cert_key: /etc/secrets/kong-cluster-cert/tls.key
+
+# #Admin GUI (
+# admin_gui_url: http://manager
+# admin_gui_api_url: http://admin
+# # Change the secret and set cookie_secure to true if using a HTTPS endpoint
+# admin_gui_session_conf: '{"secret":"secret","storage":"kong","cookie_secure":false}'
   
  # Database
  # CHANGE THESE VALUES
@@ -33,7 +39,10 @@ env:
 enterprise:
  enabled: false
  license_secret: kong-enterprise-license
-  
+ rbac:
+   enabled: true
+   admin_gui_auth: basic-auth
+
 # The control plane serves the Admin API
 admin:
  enabled: true
@@ -53,7 +62,7 @@ clustertelemetry:
   
 # Optional features
 manager:
- enabled: false
+ enabled: true
   
 # These roles will be served by different Helm releases
 proxy:
