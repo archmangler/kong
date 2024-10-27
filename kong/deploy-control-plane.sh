@@ -18,9 +18,34 @@ function prepare_mtls_certificate () {
   openssl req -new -x509 -nodes -newkey ec:<(openssl ecparam -name secp384r1) -keyout ./tls.key -out ./tls.crt -days 1095 -subj "/CN=kong_clustering"
 }
 
+function create_mtls_secret () {
+  printf "creating kubernetes secret for mTLS certificate ...\n"
+  kubectl create secret tls kong-cluster-cert --cert=./tls.crt --key=./tls.key -n kong
+}
+
+function create_kong_release () {
+  helm install kong-cp kong/kong -n kong --values ./values-cp.yaml
+}
+
+function delete_kong_release () {
+  helm uninstall kong-cp -n kong
+}
+
+function update_kong_configuration () {
+  helm upgrade kong-cp kong/kong -n kong --values ./values-cp.yaml
+}
 
 #deploy_helm
 
 #deploy_kong_secrets
 
-prepare_mtls_certificate
+#prepare_mtls_certificate
+
+#create_mtls_secret
+
+create_kong_release
+
+#delete_kong_release
+
+#update_kong_configuration
+
